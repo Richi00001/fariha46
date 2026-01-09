@@ -163,29 +163,303 @@ skillCards.forEach((card, index) => {
     cardObserver.observe(card);
 });
 
-// Parallax effect for floating shapes
-window.addEventListener('scroll', function() {
-    const scrollY = window.pageYOffset;
-    const shapes = document.querySelectorAll('.shape');
-    
-    shapes.forEach((shape, index) => {
-        const speed = (index + 1) * 0.5;
-        shape.style.transform = `translate(${scrollY * speed * 0.01}px, ${scrollY * speed * 0.02}px)`;
-    });
-});
-
-// Add typing effect to home section (optional)
-function typeWriter(element, text, speed = 100) {
-    let i = 0;
-    element.textContent = '';
-    function type() {
-        if (i < text.length) {
-            element.textContent += text.charAt(i);
-            i++;
-            setTimeout(type, speed);
+// Simple PDF Download Function
+const downloadCVBtn = document.getElementById('downloadCV');
+if (downloadCVBtn) {
+    downloadCVBtn.addEventListener('click', function() {
+        // Show loading state
+        const originalHTML = this.innerHTML;
+        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
+        this.disabled = true;
+        
+        try {
+            // Create a new window with the CV content
+            const printWindow = window.open('', '_blank');
+            
+            // Get the profile image source
+            const profileImage = document.querySelector('#cvCard .cv-profile-image img');
+            let imageSrc = '';
+            
+            if (profileImage && profileImage.src) {
+                imageSrc = profileImage.src;
+            }
+            
+            // Create HTML content for PDF
+            const htmlContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Razoyana Fariha - CV</title>
+                    <meta charset="UTF-8">
+                    <style>
+                        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+                        
+                        * {
+                            margin: 0;
+                            padding: 0;
+                            box-sizing: border-box;
+                        }
+                        
+                        body {
+                            font-family: 'Poppins', sans-serif;
+                            line-height: 1.6;
+                            padding: 0;
+                            margin: 0;
+                            background: #f5f5f5;
+                        }
+                        
+                        .cv-container {
+                            max-width: 210mm;
+                            min-height: 297mm;
+                            margin: 0 auto;
+                            background: white;
+                            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+                        }
+                        
+                        .cv-layout {
+                            display: grid;
+                            grid-template-columns: 250px 1fr;
+                            min-height: 297mm;
+                        }
+                        
+                        .cv-left-column {
+                            background: #20b2aa;
+                            color: white;
+                            padding: 40px 25px;
+                        }
+                        
+                        .cv-right-column {
+                            background: #f5f5dc;
+                            padding: 40px 40px;
+                        }
+                        
+                        .cv-profile-image {
+                            width: 180px;
+                            height: 180px;
+                            margin: 0 auto 30px;
+                            border-radius: 50%;
+                            overflow: hidden;
+                            border: 5px solid rgba(255, 255, 255, 0.3);
+                        }
+                        
+                        .cv-profile-image img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                        }
+                        
+                        .cv-name-header {
+                            background: linear-gradient(135deg, #ffb6c1 0%, #ffc0cb 100%);
+                            padding: 25px 40px;
+                            margin: -40px -40px 30px -40px;
+                        }
+                        
+                        .cv-name {
+                            font-size: 2.2rem;
+                            font-weight: 800;
+                            color: #000;
+                            margin: 0;
+                            letter-spacing: 1px;
+                        }
+                        
+                        .cv-title {
+                            font-size: 1.1rem;
+                            color: #333;
+                            margin: 5px 0 0 0;
+                        }
+                        
+                        .cv-section-title-left {
+                            font-size: 1rem;
+                            font-weight: 700;
+                            margin: 30px 0 15px 0;
+                            text-transform: uppercase;
+                            letter-spacing: 1px;
+                            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+                            padding-bottom: 8px;
+                        }
+                        
+                        .cv-profile-text {
+                            font-size: 0.9rem;
+                            line-height: 1.5;
+                            text-align: justify;
+                        }
+                        
+                        .cv-contact-item {
+                            margin: 15px 0;
+                            font-size: 0.9rem;
+                        }
+                        
+                        .cv-contact-item i {
+                            margin-right: 10px;
+                            width: 16px;
+                        }
+                        
+                        .cv-section-title-right {
+                            font-size: 0.95rem;
+                            font-weight: 700;
+                            color: #20b2aa;
+                            margin: 25px 0 12px 0;
+                            text-transform: uppercase;
+                            letter-spacing: 1px;
+                        }
+                        
+                        .cv-right-item {
+                            margin-bottom: 20px;
+                        }
+                        
+                        .cv-right-item p {
+                            font-size: 0.9rem;
+                            color: #333;
+                            line-height: 1.5;
+                            margin-bottom: 5px;
+                        }
+                        
+                        .cv-education-item {
+                            margin-bottom: 15px;
+                        }
+                        
+                        .cv-education-institution {
+                            font-weight: 700;
+                            color: #000;
+                            font-size: 0.9rem;
+                            margin-bottom: 4px;
+                        }
+                        
+                        .cv-education-degree {
+                            color: #555;
+                            font-size: 0.85rem;
+                            margin-bottom: 4px;
+                        }
+                        
+                        .cv-education-period {
+                            color: #666;
+                            font-size: 0.8rem;
+                        }
+                        
+                        @media print {
+                            body {
+                                margin: 0;
+                                padding: 0;
+                                background: white;
+                            }
+                            .cv-container {
+                                box-shadow: none;
+                                margin: 0;
+                                width: 210mm;
+                                min-height: 297mm;
+                            }
+                            @page {
+                                size: A4;
+                                margin: 0;
+                            }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="cv-container">
+                        <div class="cv-layout">
+                            <!-- Left Column (Teal) -->
+                            <div class="cv-left-column">
+                                <div class="cv-profile-image">
+                                    <img src="${imageSrc}" alt="Razoyana Fariha">
+                                </div>
+                                <div class="cv-profile-section">
+                                    <h3 class="cv-section-title-left">PROFILE</h3>
+                                    <p class="cv-profile-text">Educational Technology and Engineering student skilled in digital tools, multimedia design, and e-learning platforms. Passionate about technology-driven education and looking forward to my first professional opportunity.</p>
+                                </div>
+                                <div class="cv-contact-section">
+                                    <h3 class="cv-section-title-left">CONTACT ME</h3>
+                                    <div class="cv-contact-item">
+                                        <i class="fas fa-phone"></i> 01886374018
+                                    </div>
+                                    <div class="cv-contact-item">
+                                        <i class="fas fa-envelope"></i> razoyanaf@gmail.com
+                                    </div>
+                                    <div class="cv-contact-item">
+                                        <i class="fas fa-map-marker-alt"></i> Gazipur Dhaka, Bangladesh
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Right Column (Light Pink/Beige) -->
+                            <div class="cv-right-column">
+                                <div class="cv-name-header">
+                                    <h1 class="cv-name">RAZOYANA FARIHA</h1>
+                                    <p class="cv-title">Student</p>
+                                </div>
+                                
+                                <div class="cv-content-section">
+                                    <div class="cv-right-item">
+                                        <h3 class="cv-section-title-right">EDUCATION</h3>
+                                        <div class="cv-education-item">
+                                            <p class="cv-education-institution">UNIVERSITY OF FRONTIER TECHNOLOGY, BANGLADESH</p>
+                                            <p class="cv-education-degree">Educational technology and Engineering</p>
+                                        </div>
+                                        <div class="cv-education-item">
+                                            <p class="cv-education-institution">GOVERNMENT COLLEGE, DINAJPUR</p>
+                                            <p class="cv-education-period">2019-2020</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="cv-right-item">
+                                        <h3 class="cv-section-title-right">LANGUAGE</h3>
+                                        <p>English (proficient)</p>
+                                        <p>Bangla (Native)</p>
+                                    </div>
+                                    
+                                    <div class="cv-right-item">
+                                        <h3 class="cv-section-title-right">COMPUTER SKILLS</h3>
+                                        <p>Ms office/Google workspace</p>
+                                        <p>Operating system</p>
+                                        <p>Slide presentation</p>
+                                        <p>Basic programming (HTML/CSS, C++)</p>
+                                    </div>
+                                    
+                                    <div class="cv-right-item">
+                                        <h3 class="cv-section-title-right">VOLUNTEER EXPERIENCE</h3>
+                                        <p>Volunteered in organizing educational workshops and promoting digital learning initiatives.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+                    <script>
+                        // Automatically print when page loads
+                        window.onload = function() {
+                            setTimeout(function() {
+                                window.print();
+                                // Close window after printing
+                                setTimeout(function() {
+                                    window.close();
+                                }, 500);
+                            }, 1000);
+                        };
+                    </script>
+                </body>
+                </html>
+            `;
+            
+            // Write the content to the new window
+            printWindow.document.write(htmlContent);
+            printWindow.document.close();
+            
+            // Restore button after a short delay
+            setTimeout(() => {
+                this.innerHTML = originalHTML;
+                this.disabled = false;
+            }, 2000);
+            
+        } catch (error) {
+            console.error('Error generating PDF:', error);
+            alert('Error generating PDF. Please try again. You can also take a screenshot of the CV section.');
+            
+            // Restore button on error
+            this.innerHTML = originalHTML;
+            this.disabled = false;
         }
-    }
-    type();
+    });
 }
 
 // Initialize on page load
@@ -199,14 +473,14 @@ window.addEventListener('DOMContentLoaded', function() {
     
     // Close mobile menu when clicking outside
     document.addEventListener('click', function(e) {
-        if (!e.target.closest('nav') && navLinks.classList.contains('active')) {
+        if (!e.target.closest('nav') && navLinks && navLinks.classList.contains('active')) {
             closeMobileMenu();
         }
     });
     
     // Handle window resize
     window.addEventListener('resize', function() {
-        if (window.innerWidth > 768) {
+        if (window.innerWidth > 768 && navLinks) {
             closeMobileMenu();
         }
     });
@@ -220,47 +494,3 @@ window.addEventListener('load', function() {
 
 // Initialize
 document.body.style.opacity = '0';
-
-// Add particle effect (optional enhancement)
-function createParticles() {
-    const homeSection = document.querySelector('.home-section');
-    if (!homeSection) return;
-    
-    for (let i = 0; i < 20; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        particle.style.cssText = `
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 50%;
-            pointer-events: none;
-        `;
-        
-        const startX = Math.random() * 100;
-        const startY = Math.random() * 100;
-        const duration = 10 + Math.random() * 20;
-        
-        particle.style.left = startX + '%';
-        particle.style.top = startY + '%';
-        particle.style.animation = `float-particle ${duration}s infinite ease-in-out`;
-        
-        homeSection.appendChild(particle);
-    }
-}
-
-// Create particle animation CSS
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes float-particle {
-        0%, 100% { transform: translate(0, 0); opacity: 0.3; }
-        25% { transform: translate(20px, -20px); opacity: 0.7; }
-        50% { transform: translate(-10px, 10px); opacity: 0.5; }
-        75% { transform: translate(10px, 15px); opacity: 0.6; }
-    }
-`;
-document.head.appendChild(style);
-
-// Uncomment to enable particles
-// createParticles();

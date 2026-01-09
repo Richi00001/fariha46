@@ -439,6 +439,75 @@ header nav a:hover::after {
     object-fit: cover;
 }
 
+/* Education and Career Goals Styles */
+.subsection-title {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin: 30px 0 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.education-section,
+.career-goals-section {
+    margin: 30px 0;
+}
+
+.education-item {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+    border-left: 4px solid var(--primary-color);
+}
+
+.education-item h4 {
+    color: var(--text-dark);
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+}
+
+.education-institution {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.education-period {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.education-description {
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+.goals-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 15px;
+}
+
+.goals-list li {
+    padding: 10px 0 10px 30px;
+    position: relative;
+    color: var(--text-light);
+    line-height: 1.8;
+}
+
+.goals-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
 /* Skills Section */
 .skills-section {
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
@@ -604,6 +673,210 @@ header nav a:hover::after {
     font-weight: 500;
 }
 
+/* CV Section */
+.cv-section {
+    background: var(--bg-light);
+}
+
+.cv-download-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+}
+
+.cv-download {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.btn-large {
+    padding: 20px 50px;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.cv-note {
+    margin-top: 20px;
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+/* Hidden CV Card for PDF Generation */
+.cv-card-hidden {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    visibility: hidden;
+    width: 900px;
+}
+
+.cv-card {
+    background: white;
+    border-radius: 20px;
+    padding: 0;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    width: 100%;
+    max-width: 900px;
+}
+
+/* CV Layout - Two Column Design */
+.cv-layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    min-height: 800px;
+}
+
+.cv-left-column {
+    background: #20b2aa;
+    color: white;
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.cv-profile-image {
+    width: 180px;
+    height: 180px;
+    margin: 0 auto;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+}
+
+.cv-profile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cv-profile-section,
+.cv-contact-section {
+    margin-top: 20px;
+}
+
+.cv-section-title-left {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    padding-bottom: 8px;
+}
+
+.cv-profile-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+.cv-contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.cv-contact-item i {
+    margin-top: 4px;
+    font-size: 0.9rem;
+    width: 20px;
+}
+
+.cv-contact-item p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.cv-right-column {
+    background: #f5f5dc;
+    padding: 40px 50px;
+}
+
+.cv-name-header {
+    background: linear-gradient(135deg, #ffb6c1 0%, #ffc0cb 100%);
+    padding: 30px 40px;
+    margin: -40px -50px 30px -50px;
+}
+
+.cv-name {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #000;
+    margin: 0;
+    letter-spacing: 2px;
+}
+
+.cv-title {
+    font-size: 1.2rem;
+    color: #333;
+    margin: 5px 0 0 0;
+    font-weight: 500;
+}
+
+.cv-content-section {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.cv-right-item {
+    margin-bottom: 20px;
+}
+
+.cv-section-title-right {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #20b2aa;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cv-section-title-right i {
+    font-size: 0.8rem;
+}
+
+.cv-right-item p {
+    font-size: 0.95rem;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+.cv-education-item {
+    margin-bottom: 15px;
+}
+
+.cv-education-institution {
+    font-weight: 700;
+    color: #000;
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+}
+
+.cv-education-degree {
+    color: #555;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+}
+
+.cv-education-period {
+    color: #666;
+    font-size: 0.85rem;
+}
+
 /* Contact Section */
 .contact-section {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -665,6 +938,18 @@ header nav a:hover::after {
 }
 
 .contact-item p {
+    opacity: 0.9;
+}
+
+.contact-link {
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid transparent;
+}
+
+.contact-link:hover {
+    border-bottom: 1px solid white;
     opacity: 0.9;
 }
 
